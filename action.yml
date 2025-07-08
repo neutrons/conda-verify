@@ -40,7 +40,7 @@ runs:
           python=3.10
 
     - name: Install the package
-      shell: bash
+      shell: bash -el {0}
       env:
         LOCAL_CHANNEL: ${{ inputs.local-channel }}
         EXTRA_CHANNELS: ${{ inputs.extra-channels }}
@@ -61,7 +61,7 @@ runs:
         micromamba install --yes ${channels} ${PKG_NAME}
 
     - name: Verify the installation
-      shell: bash
+      shell: bash -el {0}
       env:
         PKG_NAME: ${{ inputs.package-name }}
       run: |

@@ -4,8 +4,8 @@ GitHub action to verify a conda package by installing it with `micromamba` and e
 
 ## Usage
 
-This action assumes that you have built a `<package-name>.conda` built,  
-and that it is located in a conda-style channel directory.
+This action assumes that you have built a `<package-name>.conda`,  
+and that it is located in a conda-style channel directory (see [conda-index](https://github.com/conda/conda-index).
 
 For example:
 

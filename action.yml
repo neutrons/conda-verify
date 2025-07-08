@@ -16,7 +16,7 @@ inputs:
     description: Expected version of the package to verify
     required: false
     default: 0.0.0
-  channels:
+  extra-channels:
     type: string
     description: |
       Additional channels to use when installing the package
@@ -40,7 +40,7 @@ runs:
       shell: bash
       env:
         LOCAL_CHANNEL: ${{ inputs.local-channel }}
-        CHANNELS: ${{ inputs.channels }}
+        EXTRA_CHANNELS: ${{ inputs.extra-channels }}
         PKG_NAME: ${{ inputs.package }}
       run: |
         micromamba install --yes -c conda-forge conda-build conda-index
@@ -50,8 +50,8 @@ runs:
             channels="${LOCAL_CHANNEL} $channels"
         fi
             
-        if [ -n "${CHANNELS}" ]; then
-            channels+=" $CHANNELS"
+        if [ -n "${EXTRA_CHANNELS}" ]; then
+            channels+=" ${EXTRA_CHANNELS}"
         fi
 
         channels="-c ${channels// / -c }"

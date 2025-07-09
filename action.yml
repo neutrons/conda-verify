@@ -16,13 +16,16 @@ inputs:
     description: Name of the package to install and verify
     required: true
   extra-channels:
-    type: string
     description: |
       Additional channels to use when installing the package
       Note, conda-forge is included by default
       Example: 
         channels: mantid neutrons
     required: false
+  extra-commands:
+    description: Additional bash commands to be run during the verification step.
+    required: false
+    # default: ""
 
 runs:
   using: "composite"
@@ -60,6 +63,7 @@ runs:
       shell: bash -el {0}
       env:
         PKG_NAME: ${{ inputs.package-name }}
+        EXTRA_COMMANDS: ${{ inputs.extra-commands }}
       run: |
         conda_version=$(micromamba list "${PKG_NAME}" | awk -v pkg="${PKG_NAME}" '$1 == pkg { print $2 }')
         echo "Conda version: $conda_version"

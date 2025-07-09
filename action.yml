@@ -75,3 +75,7 @@ runs:
         else
           echo "Versions match."
         fi
+
+        if [ -n "${EXTRA_COMMANDS}" ]; then
+          ${EXTRA_COMMANDS}
+        fi

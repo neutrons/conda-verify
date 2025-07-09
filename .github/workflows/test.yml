@@ -25,7 +25,7 @@ jobs:
         with:
           # local-channel: /tmp/local-channel
           package-name: ${{ env.PKG_NAME }}
-          extra-channels: mantid-ornl
+          extra-channels: neutrons
           extra-commands: |
             echo "This is a test of a multiline" 
             output=$(date)

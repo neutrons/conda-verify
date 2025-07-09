@@ -66,16 +66,22 @@ runs:
         EXTRA_COMMANDS: ${{ inputs.extra-commands }}
       run: |
         conda_version=$(micromamba list "${PKG_NAME}" | awk -v pkg="${PKG_NAME}" '$1 == pkg { print $2 }')
+        echo "------------------------"
         echo "Conda version: $conda_version"
         python_version=$(python -c "import ${PKG_NAME}; print(${PKG_NAME}.__version__)")
         echo "Python version: $python_version"
         if [ "$conda_version" != "$python_version" ]; then
-          echo "Version mismatch!"
+          echo -e "\nVersion mismatch!\m"
           exit 1
         else
           echo "Versions match."
         fi
+        echo "------------------------"
 
         if [ -n "${EXTRA_COMMANDS}" ]; then
-          eval ${EXTRA_COMMANDS}
+          echo "Running additional commands:"
+          readarray -t commands <<< "${EXTRA_COMMANDS}"
+          for cmd in "${commands[@]}"; do
+            eval "${cmd}"
+          fi
         fi

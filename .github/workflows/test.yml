@@ -12,11 +12,14 @@ env:
 
 jobs:
   conda-verify:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash -el {0}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Verify conda package
         uses: ./
         with:

@@ -29,4 +29,4 @@ jobs:
           extra-commands: |
             echo "This is a test of a multiline"
             output=$(date)
-            echo ${output}
+            echo "${output}"

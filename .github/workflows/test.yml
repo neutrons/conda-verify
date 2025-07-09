@@ -27,6 +27,6 @@ jobs:
           package-name: ${{ env.PKG_NAME }}
           extra-channels: neutrons mantid
           extra-commands: |
-            echo "This is a test of a multiline"
-            output=$(date)
+            echo "This is a test of a multiline" && 
+            output=$(date) &&
             echo "${output}"

@@ -83,5 +83,5 @@ runs:
           readarray -t commands <<< "${EXTRA_COMMANDS}"
           for cmd in "${commands[@]}"; do
             eval "${cmd}"
-          fi
+          done
         fi

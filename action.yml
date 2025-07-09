@@ -77,5 +77,8 @@ runs:
         fi
 
         if [ -n "${EXTRA_COMMANDS}" ]; then
+          echo "Extra commands input:"
+          echo ${EXTRA_COMMANDS} | cat -A
+          echo "Running extra commands"
           ${EXTRA_COMMANDS}
         fi

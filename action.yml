@@ -15,6 +15,10 @@ inputs:
   package-name:
     description: Name of the package to install and verify
     required: true
+  python-version:
+    description: Python version to use when setting up micromamba
+    required: false
+    default: 3.12
   extra-channels:
     description: |
       Additional channels to use when installing the package
@@ -36,7 +40,7 @@ runs:
         environment-name: test
         init-shell: bash
         create-args: >-
-          python=3.10
+          python=${{ inputs.python-version }}
 
     - name: Install the package
       shell: bash -el {0}

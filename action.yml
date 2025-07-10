@@ -18,7 +18,7 @@ inputs:
   python-version:
     description: Python version to use when setting up micromamba
     required: false
-    default: 3.11
+    default: 3.10
   extra-channels:
     description: |
       Additional channels to use when installing the package
@@ -42,6 +42,15 @@ runs:
         create-args: >-
           python=${{ inputs.python-version }}
 
+    - name: Index local conda channel
+      if: ${{ inputs.local-channel }}
+      shell: bash -el {0}
+      env:
+        LOCAL_CHANNEL: ${{ inputs.local-channel }}
+      run: |
+        micromamba install -y -c condaforge conda-build conda-index
+        python -m conda_index ${LOCAL_CHANNEL}
+
     - name: Install the package
       shell: bash -el {0}
       env:
@@ -49,10 +58,8 @@ runs:
         EXTRA_CHANNELS: ${{ inputs.extra-channels }}
         PKG_NAME: ${{ inputs.package-name }}
       run: |
-        micromamba install --yes -c conda-forge conda-build conda-index
         channels="conda-forge"
         if [ -n "${LOCAL_CHANNEL}" ]; then
-            python -m conda_index ${LOCAL_CHANNEL}
             channels="${LOCAL_CHANNEL} $channels"
         fi
             
@@ -61,7 +68,7 @@ runs:
         fi
 
         channels="-c ${channels// / -c }"
-        micromamba install --yes ${channels} ${PKG_NAME}
+        micromamba install -y ${channels} ${PKG_NAME}
 
     - name: Verify the installation
       shell: bash -el {0}

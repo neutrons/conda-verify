@@ -19,7 +19,7 @@ inputs:
     description: Python version to use when setting up micromamba
     type: string
     required: false
-    default: 3.10
+    default: "3.10"
   extra-channels:
     description: |
       Additional channels to use when installing the package

@@ -49,6 +49,7 @@ runs:
       env:
         LOCAL_CHANNEL: ${{ inputs.local-channel }}
       run: |
+        echo "Index the local conda channel" 
         micromamba install -y -c conda-forge conda-build conda-index
         python -m conda_index ${LOCAL_CHANNEL}
 
@@ -59,6 +60,7 @@ runs:
         EXTRA_CHANNELS: ${{ inputs.extra-channels }}
         PKG_NAME: ${{ inputs.package-name }}
       run: |
+        echo "Install the conda package"
         channels="conda-forge"
         if [ -n "${LOCAL_CHANNEL}" ]; then
             channels="${LOCAL_CHANNEL} $channels"
@@ -77,6 +79,7 @@ runs:
         PKG_NAME: ${{ inputs.package-name }}
         EXTRA_COMMANDS: ${{ inputs.extra-commands }}
       run: |
+        echo "Verifying conda package"
         conda_version=$(micromamba list "${PKG_NAME}" | awk -v pkg="${PKG_NAME}" '$1 == pkg { print $2 }')
         echo "------------------------"
         echo "Conda version: $conda_version"
@@ -94,6 +97,7 @@ runs:
           echo "Running additional commands:"
           readarray -t commands <<< "${EXTRA_COMMANDS}"
           for cmd in "${commands[@]}"; do
+            echo "${cmd}"
             eval "${cmd}"
           done
         fi

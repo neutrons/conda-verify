@@ -97,7 +97,7 @@ runs:
           echo "Running additional commands:"
           readarray -t commands <<< "${EXTRA_COMMANDS}"
           for cmd in "${commands[@]}"; do
-            echo "${cmd}"
+            echo -e "\n> ${cmd}"
             eval "${cmd}"
           done
         fi

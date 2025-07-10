@@ -18,7 +18,7 @@ inputs:
   python-version:
     description: Python version to use when setting up micromamba
     required: false
-    default: 3.12
+    default: 3.11
   extra-channels:
     description: |
       Additional channels to use when installing the package

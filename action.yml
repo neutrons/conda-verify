@@ -49,7 +49,7 @@ runs:
       env:
         LOCAL_CHANNEL: ${{ inputs.local-channel }}
       run: |
-        micromamba install -y -c condaforge conda-build conda-index
+        micromamba install -y -c conda-forge conda-build conda-index
         python -m conda_index ${LOCAL_CHANNEL}
 
     - name: Install the package

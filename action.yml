@@ -15,6 +15,9 @@ inputs:
   package-name:
     description: Name of the package to install and verify
     required: true
+  module-name:
+    description: Name of the python module, if different from package name
+    required: false
   python-version:
     description: Python version to use when setting up micromamba
     type: string
@@ -30,7 +33,6 @@ inputs:
   extra-commands:
     description: Additional bash commands to be run during the verification step.
     required: false
-    # default: ""
 
 runs:
   using: "composite"
@@ -77,20 +79,30 @@ runs:
       shell: bash -el {0}
       env:
         PKG_NAME: ${{ inputs.package-name }}
+        MODULE_NAME: ${{ inputs.module-name }}
         EXTRA_COMMANDS: ${{ inputs.extra-commands }}
       run: |
         echo "Verifying conda package"
+
         conda_version=$(micromamba list "${PKG_NAME}" | awk -v pkg="${PKG_NAME}" '$1 == pkg { print $2 }')
+                
+        if [ -n ${MODULE_NAME} ]; then
+          python_version=$(python -c "import ${MODULE_NAME}; print(${MODULE_NAME}.__version__)" | tail -n 1)
+        else
+          python_version=$(python -c "import ${PKG_NAME}; print(${PKG_NAME}.__version__)" | tail -n 1)
+        fi
+        
         echo "------------------------"
         echo "Conda version: $conda_version"
-        python_version=$(python -c "import ${PKG_NAME}; print(${PKG_NAME}.__version__)" | tail -n 1)
         echo "Python version: $python_version"
+        
         if [ "$conda_version" != "$python_version" ]; then
           echo -e "\nVersion mismatch!\m"
           exit 1
         else
           echo "Versions match."
         fi
+        
         echo "------------------------"
 
         if [ -n "${EXTRA_COMMANDS}" ]; then

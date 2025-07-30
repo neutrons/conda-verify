@@ -25,6 +25,7 @@ jobs:
         with:
           # local-channel: /tmp/local-channel
           package-name: ${{ env.PKG_NAME }}
+          module-name: ${{ env.PKG_NAME }}
           extra-channels: neutrons mantid
           extra-commands: |
             echo "This is a test of a multiline"

@@ -86,7 +86,7 @@ runs:
 
         conda_version=$(micromamba list "${PKG_NAME}" | awk -v pkg="${PKG_NAME}" '$1 == pkg { print $2 }')
                 
-        if [ -n ${MODULE_NAME} ]; then
+        if [ -n "${MODULE_NAME}" ]; then
           python_version=$(python -c "import ${MODULE_NAME}; print(${MODULE_NAME}.__version__)" | tail -n 1)
         else
           python_version=$(python -c "import ${PKG_NAME}; print(${PKG_NAME}.__version__)" | tail -n 1)
